@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Node-Api Documentation</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        * {
+            user-select: none;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .highlight {
+            background-color: rgb(142, 142, 142);
+
+        }
+
+        pre {
+            user-select: text;
+            padding: 10px;
+            color: rgb(255, 255, 255);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <!-- place navbar here -->
+            <nav class="navbar navbar-expand-sm navbar-light">
+                <div class="container">
+                    <a class="navbar-brand ms-3" href="/">Let`s create Node Apis</a>
+                    <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </nav>
+
+        </header>
+        <main>
+            <div class="container">
+                <div class="row m-1">
+                    <div class="col">
+                        <div class="h-100 p-5 border rounded">
+                            <h3>Prerequisite</h3>
+
+                            1. <a class="text-success" href="https://nodejs.dev/en/">
+                                Node Js </a> Globaly installed in your computer. <br>
+                            2. <a class="text-success" href="https://www.npmjs.com/package/npm">
+                                Npm </a> Globaly installed in your computer.<br>
+                            3. <a class="text-success" href="https://git-scm.com/downloads">
+                                Git </a> installed in your computer.
+                            <br>
+                            4. A <a class="text-success" href="https://github.com">
+                                Github </a> acccount. <code>Free*</code>
+                            <br>
+                            5. A <a class="text-success" href="https://www.freesqldatabase.com/">
+                                FreeSqlDatabase </a> acccount. <code>Free*</code>
+                            <br>
+                            6. A <a class="text-success" href="https://www.cyclic.sh/">
+                                Cyclic </a> acccount. <code>Free*</code>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-1">
+                    <div class="col">
+                        <div class="h-100 p-5 border rounded">
+                            <h3>Step 1</h3>
+                            <p>Create a <i class='bx bxs-folder bx-tada' style='color:#c5fe83'></i> folder Node-Api in
+                                you beautiful computer.</p>
+                            <p>Open it in <i class='bx bxl-visual-studio bx-tada' style='color:#5a7de6'></i> VsCode.</p>
+                            <h3>Step 2</h3>
+                            <span>Open Your VSCode Terminal and run these following command : </span><br>
+                            => to install express and mysql
+                            <div class="highlight mt-2">
+                                <pre>$ npm install express mysql </pre>
+                            </div>
+                            => to inisilaize your git
+                            <div class="highlight mt-2">
+                                <pre>$ git init </pre>
+                            </div>
+                            <h3>Step 3</h3>
+                            <p>Create a file called <code>index.js</code> in your current folder</p>
+                            => paste this code
+                            <div class="highlight mt-2">
+                                <pre>
+    const express = require("express");
+    const mysql = require("mysql");
+    const app = express();
+
+    const port = process.env.PORT || 8000;
+    const pool = mysql.createPool({
+        ---- All these following data is given by freesqldatabase.
+        ----------------------------------------------------------------
+        host: "sql12.freesqldatabase.com", 
+        user: "sql12621944",
+        password: "CBh1yLwf48",
+        database: "sql12621944",
+    });
+    app.get("/", (req, res) => {
+        pool.getConnection((err, connection) => {
+            if (err) {
+                res.status(500).json({ error: "Error connecting to the database" });
+            } else {
+                connection.query("SELECT * FROM users", (error, results) => {
+                    connection.release(); // Release the connection back to the pool
+                    if (error) {
+                        res.status(500).json({ error: "Error executing the query" });
+                    } else {
+                        res.json(results);
+                    }
+                });
+            }
+        });
+    });
+    app.listen(port, () => {
+        console.log(`Server is running on port http://localhost:8000`);
+    });
+</pre>
+
+                            </div>
+                            Add script to run by npm start
+                            <div class="highlight mt-2">
+                                <pre>
+    {
+    "dependencies": {
+        "env-cmd": "^10.1.0",
+        "express": "^4.18.2",
+        "mysql": "^2.18.1"
+        },
+        "name": "first-api",
+        "version": "1.0.0",
+        "main": "index.js",
+        "scripts": {
+            --- Add this 'Start Script'
+            --------------------------
+            "start": "node index.js",
+            "test": "echo \"Error: no test specified\" && exit 1"
+            },
+        "author": "your username here",
+        "license": "ISC",
+        "description": "your description here",
+    }
+</pre>
+                            </div>
+                            => to see data on browser by local host
+                            <div class="highlight mt-2">
+                                <pre>$ npm start </pre>
+                            </div>
+                            Now you can check you data is geting or not <a
+                                href="http://localhost:8000">http://localhost:8000</a>
+                            <h3>Step 4</h3>
+                            <p>Now let`s move to the next step which is pushing this project on github.</p>
+                            <p>Open <a class="text-success" href="https://github.com">
+                                    Github </a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    </main>
+    <footer class=" text-center  text-lg-start">
+        <!-- Copyright -->
+        <div class="text-center p-3">
+            © 2023 Copyright:
+            <a class="text-primary" href="/">NodeApiDocs</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+
+    </div>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+
+    <!-- Bootstrap JavaScript Libraries -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+        </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+        </script>
+</body>
+
+</html>
